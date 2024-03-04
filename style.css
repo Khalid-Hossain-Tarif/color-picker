@@ -103,10 +103,10 @@ body {
 
 .hex-icon {
   position: absolute;
-  top: 47%;
+  top: 42%;
   left: 1px;
   background-color: #dddeee;
-  padding: 0.18rem 1rem;
+  padding: 0.38rem 1rem;
   border-top-left-radius: 0.15rem;
   border-bottom-left-radius: 0.15rem;
 }

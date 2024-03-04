@@ -1,9 +1,12 @@
+//globals
 let toasterDiv = null;
 
+//Onload handler
 window.onload = () => {
   main();
 };
 
+//Main or boot functions, this function will take care of getting all the DOM references
 function main() {
   const root = document.getElementById("root");
   const output = document.getElementById("output");
@@ -36,6 +39,9 @@ function main() {
       alert("color code not matched!");
     }
   });
+
+
+  //Utility functions
 
   //copy RGB color code
   rbgCopyBtn.addEventListener("click", function () {
