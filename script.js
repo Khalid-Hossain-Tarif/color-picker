@@ -1,3 +1,10 @@
+/**
+ * Date: 06-03-2024
+ * Author: Khalid Hossain
+ * Inspired by: Stack learner
+ * Description: Color picker tool with vanilla js
+ */
+
 //globals
 let toasterDiv = null;
 
@@ -40,9 +47,6 @@ function main() {
     }
   });
 
-
-  //Utility functions
-
   //copy RGB color code
   rbgCopyBtn.addEventListener("click", function () {
     navigator.clipboard.writeText(rgbOutput.value);
@@ -65,13 +69,20 @@ function main() {
       output.value = color.toUpperCase();
       if (isValidHex(color)) {
         root.style.backgroundColor = `#${color}`;
-        rgbOutput.value = convertHexToRgb(color);
+        rgbOutput.value = hexToRgb(color);
       }
     }
   });
 }
 
-//Generate decimal color - return obj
+//Event handlers
+
+//Dom functions
+
+//Utils
+ functions
+
+//Generate decimal color - return object of three colors
 function generateDecimalColor() {
   const red = Math.floor(Math.random() * 255);
   const green = Math.floor(Math.random() * 255);
@@ -84,10 +95,13 @@ function generateDecimalColor() {
   };
 }
 
-//Generate random hex color: #000, #fff
+/**
+ * Generate random hex color code: #000, #fff
+ * @param {object} color 
+ * @returns {string}
+ */
 function generateHexColor({ red, green, blue }) {
   // const { red, green, blue } = generateDecimalColor();
-
   const getTwoCode = (value) => {
     const hex = value.toString(16);
     return hex.length === 1 ? `0${hex}` : hex;
@@ -96,14 +110,23 @@ function generateHexColor({ red, green, blue }) {
   return `#${getTwoCode(red)}${getTwoCode(green)}${getTwoCode(blue)}`;
 }
 
-//Generate random hex color: rgb(0, 0, 0), rgb(255, 0, 0)
+
+/**
+ * Generate random rgb color: rgb(0, 0, 0), rgb(255, 0, 0)
+ * @param {object} color 
+ * @returns {string}
+ */
 function generateRGBColor({ red, green, blue }) {
   // const { red, green, blue } = generateDecimalColor();
   return `rgb(${red}, ${green}, ${blue})`;
 }
 
-//Convert hex to rgb color
-function convertHexToRgb(hex) {
+/**
+ * Convert hex to rgb color
+ * @param {string} hex 
+ * @returns {string}
+ */
+function hexToRgb(hex) {
   const red = parseInt(hex.slice(0, 2), 16); //16 - we can't convert hexadecimal to int, that;s why should use hexadecimal base 16
   const green = parseInt(hex.slice(2, 4), 16);
   const blue = parseInt(hex.slice(4), 16);
@@ -111,7 +134,30 @@ function convertHexToRgb(hex) {
   return `rgb(${red}, ${green}, ${blue})`;
 }
 
-//Toast Message generate
+
+/**
+ * validate hex color code (without #)
+ * @param {string} color 
+ * @returns {boolean}
+ */
+function isValidHex(color) {
+  if (color.length != 6) return false;
+  return /^[0-9A-Fa-f]{6}$/i.test(color);
+}
+
+//Hex color code validity check with #
+// function isValidHex(color) {
+//   if (color.length != 7) return false;
+//   if (color[0] != "#") return false;
+//   color = color.substring(1);
+//   return /^[0-9A-Fa-f]{6}$/i.test(color);
+// }
+
+
+/**
+ * Generate toast message
+ * @param {string} msg 
+ */
 function generateToastMessage(msg) {
   toasterDiv = document.createElement("div");
   toasterDiv.innerText = msg;
@@ -138,19 +184,3 @@ function generateToastMessage(msg) {
   //   toasterDiv = null;
   // }, 5300);
 }
-
-//Hex color code validity check without #
-function isValidHex(color) {
-  if (color.length != 6) return false;
-  return /^[0-9A-Fa-f]{6}$/i.test(color);
-}
-
-//Hex color code validity check with #
-// function isValidHex(color) {
-//   if (color.length != 7) return false;
-
-//   if (color[0] != "#") return false;
-//   color = color.substring(1);
-
-//   return /^[0-9A-Fa-f]{6}$/i.test(color);
-// }
