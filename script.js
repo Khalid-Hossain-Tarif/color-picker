@@ -15,16 +15,34 @@ window.onload = () => {
 
 //Main or boot functions, this function will take care of getting all the DOM references
 function main() {
-  const generateRandomColorBtn = document.getElementById("generate-random-color");
-  generateRandomColorBtn.addEventListener("click", 
-    generateRandomColorBtnHandler
+  const generateRandomColorBtn = document.getElementById(
+    "generate-random-color"
   );
+  const hexColorInput = document.getElementById("input-hex");
+
+  generateRandomColorBtn.addEventListener(
+    "click",
+    handleGenerateRandomColorBtn
+  );
+
+  hexColorInput.addEventListener("keyup", handleHexColorInput);
 }
 
 //Event handlers
-function generateRandomColorBtnHandler() {
+function handleGenerateRandomColorBtn() {
   const color = generateDecimalColor();
   updateColorCodeToDom(color);
+}
+
+function handleHexColorInput(e) {
+  const hexColor = e.target.value;
+  if (hexColor) {
+    this.value = hexColor.toUpperCase();
+    if (isValidHex(hexColor)) {
+      const color = hexToDecimalColors(hexColor);
+      updateColorCodeToDom(color);
+    }
+  }
 }
 
 //Dom functions
@@ -69,9 +87,11 @@ function updateColorCodeToDom(color) {
   const hexColor = generateHexColor(color);
   const rgbColor = generateRGBColor(color);
 
-  document.getElementById("color-display").style.backgroundColor = hexColor;
-  document.getElementById("color-mode-hex").value = hexColor;
-  document.getElementById("color-mode-rgb").value = rgbColor;
+  document.getElementById(
+    "color-display"
+  ).style.backgroundColor = `#${hexColor}`;
+  document.getElementById("input-hex").value = hexColor;
+  document.getElementById("input-rgb").value = rgbColor;
   document.getElementById("color-slider-red").value = color.red;
   document.getElementById("color-slider-red-label").innerText = color.red;
   document.getElementById("color-slider-green").value = color.green;
@@ -107,7 +127,7 @@ function generateHexColor({ red, green, blue }) {
     return hex.length === 1 ? `0${hex}` : hex;
   };
 
-  return `#${getTwoCode(red)}${getTwoCode(green)}${getTwoCode(blue)}`;
+  return getTwoCode(red) + getTwoCode(green) + getTwoCode(blue);
 }
 
 /**
