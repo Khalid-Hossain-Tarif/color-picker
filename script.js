@@ -15,72 +15,72 @@ window.onload = () => {
 
 //Main or boot functions, this function will take care of getting all the DOM references
 function main() {
-  const root = document.getElementById("root");
-  const output = document.getElementById("output");
-  const rgbOutput = document.getElementById("rgb-output");
-  const changeBtn = document.getElementById("color-change-btn");
-  const hexCopyBtn = document.getElementById("hex-copy-btn");
-  const rbgCopyBtn = document.getElementById("rbg-copy-btn");
-
-  changeBtn.addEventListener("click", function () {
-    //passing decimal color as a parameter, because hex and rgb color should be the same, that's why passing generateDecimalColor() from a common function
-    const decimalColor = generateDecimalColor();
-    const hex = generateHexColor(decimalColor);
-    const rgb = generateRGBColor(decimalColor);
-    root.style.backgroundColor = hex;
-    output.value = hex.substring(1).toUpperCase();
-    rgbOutput.value = rgb;
-  });
-
-  //copy Hex color code
-  hexCopyBtn.addEventListener("click", function () {
-    navigator.clipboard.writeText(`#${output.value}`);
-    if (toasterDiv != null) {
-      toasterDiv.remove();
-      toasterDiv = null;
-    }
-
-    if (isValidHex(output.value)) {
-      generateToastMessage(`#${output.value} copied`);
-    } else {
-      alert("color code not matched!");
-    }
-  });
-
-  //copy RGB color code
-  rbgCopyBtn.addEventListener("click", function () {
-    navigator.clipboard.writeText(rgbOutput.value);
-    if (toasterDiv != null) {
-      toasterDiv.remove();
-      toasterDiv = null;
-    }
-
-    if (isValidHex(output.value)) {
-      generateToastMessage(`${rgbOutput.value} copied`);
-    } else {
-      alert("color code not matched!");
-    }
-  });
-
-  //change bgColor based on use input
-  output.addEventListener("keyup", function (e) {
-    const color = e.target.value;
-    if (color) {
-      output.value = color.toUpperCase();
-      if (isValidHex(color)) {
-        root.style.backgroundColor = `#${color}`;
-        rgbOutput.value = hexToRgb(color);
-      }
-    }
-  });
+  const generateRandomColorBtn = document.getElementById("generate-random-color");
+  generateRandomColorBtn.addEventListener("click", 
+    generateRandomColorBtnHandler
+  );
 }
 
 //Event handlers
+function generateRandomColorBtnHandler() {
+  const color = generateDecimalColor();
+  updateColorCodeToDom(color);
+}
 
 //Dom functions
 
-//Utils
- functions
+/**
+ * Generate toast message
+ * @param {string} msg
+ */
+function generateToastMessage(msg) {
+  toasterDiv = document.createElement("div");
+  toasterDiv.innerText = msg;
+  toasterDiv.className = "toaster toaster-slide-in";
+
+  toasterDiv.addEventListener("click", function () {
+    toasterDiv.classList.add("toaster-slide-out");
+    toasterDiv.classList.remove("toaster-slide-in");
+
+    //toaster remove after animationend event
+    toasterDiv.addEventListener("animationend", function () {
+      toasterDiv.remove();
+      toasterDiv = null;
+    });
+  });
+
+  document.body.appendChild(toasterDiv);
+
+  // setTimeout(() => {
+  //   toasterDiv.classList.add("toaster-slide-out");
+  // }, 5000);
+
+  // setTimeout(() => {
+  //   toasterDiv.remove();
+  //   toasterDiv = null;
+  // }, 5300);
+}
+
+/**
+ * update dom elements with calculated color values
+ * @params {object} color
+ */
+function updateColorCodeToDom(color) {
+  const hexColor = generateHexColor(color);
+  const rgbColor = generateRGBColor(color);
+
+  document.getElementById("color-display").style.backgroundColor = hexColor;
+  document.getElementById("color-mode-hex").value = hexColor;
+  document.getElementById("color-mode-rgb").value = rgbColor;
+  document.getElementById("color-slider-red").value = color.red;
+  document.getElementById("color-slider-red-label").innerText = color.red;
+  document.getElementById("color-slider-green").value = color.green;
+  document.getElementById("color-slider-green-label").innerText = color.green;
+  document.getElementById("color-slider-blue").value = color.green;
+  document.getElementById("color-slider-blue-label").innerText = color.green;
+}
+
+//Utils functions
 
 //Generate decimal color - return object of three colors
 function generateDecimalColor() {
@@ -97,7 +97,7 @@ function generateDecimalColor() {
 
 /**
  * Generate random hex color code: #000, #fff
- * @param {object} color 
+ * @param {object} color
  * @returns {string}
  */
 function generateHexColor({ red, green, blue }) {
@@ -110,10 +110,9 @@ function generateHexColor({ red, green, blue }) {
   return `#${getTwoCode(red)}${getTwoCode(green)}${getTwoCode(blue)}`;
 }
 
-
 /**
  * Generate random rgb color: rgb(0, 0, 0), rgb(255, 0, 0)
- * @param {object} color 
+ * @param {object} color
  * @returns {string}
  */
 function generateRGBColor({ red, green, blue }) {
@@ -122,22 +121,25 @@ function generateRGBColor({ red, green, blue }) {
 }
 
 /**
- * Convert hex to rgb color
- * @param {string} hex 
- * @returns {string}
+ * Convert hex to decimal colors
+ * @param {string} hex
+ * @returns {object}
  */
-function hexToRgb(hex) {
+function hexToDecimalColors(hex) {
   const red = parseInt(hex.slice(0, 2), 16); //16 - we can't convert hexadecimal to int, that;s why should use hexadecimal base 16
   const green = parseInt(hex.slice(2, 4), 16);
   const blue = parseInt(hex.slice(4), 16);
 
-  return `rgb(${red}, ${green}, ${blue})`;
+  return {
+    red,
+    green,
+    blue,
+  };
 }
-
 
 /**
  * validate hex color code (without #)
- * @param {string} color 
+ * @param {string} color
  * @returns {boolean}
  */
 function isValidHex(color) {
@@ -152,35 +154,3 @@ function isValidHex(color) {
 //   color = color.substring(1);
 //   return /^[0-9A-Fa-f]{6}$/i.test(color);
 // }
-
-
-/**
- * Generate toast message
- * @param {string} msg 
- */
-function generateToastMessage(msg) {
-  toasterDiv = document.createElement("div");
-  toasterDiv.innerText = msg;
-  toasterDiv.className = "toaster toaster-slide-in";
-  document.body.appendChild(toasterDiv);
-
-  toasterDiv.addEventListener("click", function () {
-    toasterDiv.classList.add("toaster-slide-out");
-    toasterDiv.classList.remove("toaster-slide-in");
-
-    //toaster remove after animationend event
-    toasterDiv.addEventListener("animationend", function () {
-      toasterDiv.remove();
-      toasterDiv = null;
-    });
-  });
-
-  // setTimeout(() => {
-  //   toasterDiv.classList.add("toaster-slide-out");
-  // }, 5000);
-
-  // setTimeout(() => {
-  //   toasterDiv.remove();
-  //   toasterDiv = null;
-  // }, 5300);
-}

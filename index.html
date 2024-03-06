@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Change Background Color</title>
+    <title>Color Picker Tool</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="./app.js" defer></script>
+    <script src="./script.js" defer></script>
   </head>
   <body>
     <div class="container">
@@ -30,7 +30,9 @@
             Copy To Clipboard
           </button>
         </section>
+
         <div class="divider"></div>
+        <!-- select-copy-mode -->
         <div class="select-copy-mode">
           <p class="lead">Select Copy Mode</p>
           <div class="mode-radio-group">
@@ -44,6 +46,7 @@
               />
               <label for="color-mode-hex">Hex</label>
             </div>
+
             <div class="mode-input-group">
               <input
                 type="radio"
@@ -55,6 +58,8 @@
             </div>
           </div>
         </div>
+
+        <!-- selected-color-code -->
         <div class="selected-color-code">
           <div class="hex-input-group">
             <label for="input-hex" class="lead">Hex</label>
@@ -66,6 +71,7 @@
             />
             <div class="hex-icon">#</div>
           </div>
+
           <div class="rgb-input-group">
             <label for="input-rgb" class="lead">RGB</label>
             <input
@@ -77,6 +83,8 @@
             />
           </div>
         </div>
+
+        <!-- color-sliders -->
         <div class="color-sliders">
           <p class="lead">Adjust RGB Colors</p>
           <div class="color-sliders-group">
@@ -94,6 +102,7 @@
                 id="color-slider-red"
               />
             </div>
+
             <div>
               <div class="slider-label-group">
                 <p>Green</p>
@@ -108,6 +117,7 @@
                 id="color-slider-green"
               />
             </div>
+
             <div>
               <div class="slider-label-group">
                 <p>Blue</p>
