@@ -6,7 +6,7 @@
  */
 
 //globals
-let toasterDiv = null;
+let toastContainer = null;
 
 //Onload handler
 window.onload = () => {
@@ -23,6 +23,8 @@ function main() {
   const colorSliderRed = document.getElementById("color-slider-red");
   const colorSliderGreen = document.getElementById("color-slider-green");
   const colorSliderBlue = document.getElementById("color-slider-blue");
+  const copyToClipboardBtn = document.getElementById("copy-to-clipboard");
+  const colorModeRadioButtons = document.getElementsByName("color-mode");
 
   //Event listeners
   generateRandomColorBtn.addEventListener(
@@ -44,6 +46,22 @@ function main() {
     "change",
     handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue)
   );
+
+  copyToClipboardBtn.addEventListener("click", function () {
+    const mode = getCheckedValueFromRadioButtons(colorModeRadioButtons);
+
+    if (mode == null) {
+      throw new Error("Invalid Radio Input");
+    }
+
+    if (mode == "hex") {
+      const hexColor = document.getElementById("input-hex").value;
+      navigator.clipboard.writeText(`#${hexColor}`);
+    } else {
+      const rbgColor = document.getElementById("input-rgb").value;
+      navigator.clipboard.writeText(rbgColor);
+    }
+  });
 }
 
 //Event handlers
@@ -82,31 +100,47 @@ function handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue) {
  * @param {string} msg
  */
 function generateToastMessage(msg) {
-  toasterDiv = document.createElement("div");
-  toasterDiv.innerText = msg;
-  toasterDiv.className = "toaster toaster-slide-in";
+  toastContainer = document.createElement("div");
+  toastContainer.innerText = msg;
+  toastContainer.className = "toaster toaster-slide-in";
 
-  toasterDiv.addEventListener("click", function () {
-    toasterDiv.classList.add("toaster-slide-out");
-    toasterDiv.classList.remove("toaster-slide-in");
+  toastContainer.addEventListener("click", function () {
+    toastContainer.classList.add("toaster-slide-out");
+    toastContainer.classList.remove("toaster-slide-in");
 
     //toaster remove after animationend event
-    toasterDiv.addEventListener("animationend", function () {
-      toasterDiv.remove();
-      toasterDiv = null;
+    toastContainer.addEventListener("animationend", function () {
+      toastContainer.remove();
+      toastContainer = null;
     });
   });
 
-  document.body.appendChild(toasterDiv);
+  document.body.appendChild(toastContainer);
 
   // setTimeout(() => {
-  //   toasterDiv.classList.add("toaster-slide-out");
+  //   toastContainer.classList.add("toaster-slide-out");
   // }, 5000);
 
   // setTimeout(() => {
-  //   toasterDiv.remove();
-  //   toasterDiv = null;
+  //   toastContainer.remove();
+  //   toastContainer = null;
   // }, 5300);
+}
+
+/**
+ * Find the checked elements from a list of radio buttons
+ * @param {Array} nodes
+ * @returns {string / null}
+ */
+function getCheckedValueFromRadioButtons(nodes) {
+  let checkedValue = null;
+  for (i = 0; i < nodes.length; i++) {
+    if (nodes[i].checked) {
+      checkedValue = nodes[i].value;
+      break;
+    }
+  }
+  return checkedValue;
 }
 
 /**
