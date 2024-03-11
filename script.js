@@ -24,7 +24,6 @@ function main() {
   const colorSliderGreen = document.getElementById("color-slider-green");
   const colorSliderBlue = document.getElementById("color-slider-blue");
   const copyToClipboardBtn = document.getElementById("copy-to-clipboard");
-  const colorModeRadioButtons = document.getElementsByName("color-mode");
 
   //Event listeners
   generateRandomColorBtn.addEventListener(
@@ -47,21 +46,7 @@ function main() {
     handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue)
   );
 
-  copyToClipboardBtn.addEventListener("click", function () {
-    const mode = getCheckedValueFromRadioButtons(colorModeRadioButtons);
-
-    if (mode == null) {
-      throw new Error("Invalid Radio Input");
-    }
-
-    if (mode == "hex") {
-      const hexColor = document.getElementById("input-hex").value;
-      navigator.clipboard.writeText(`#${hexColor}`);
-    } else {
-      const rbgColor = document.getElementById("input-rgb").value;
-      navigator.clipboard.writeText(rbgColor);
-    }
-  });
+  copyToClipboardBtn.addEventListener("click", handleCopyToClipboard);
 }
 
 //Event handlers
@@ -93,6 +78,38 @@ function handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue) {
   };
 }
 
+function handleCopyToClipboard() {
+  const colorModeRadioButtons = document.getElementsByName("color-mode");
+  const mode = getCheckedValueFromRadioButtons(colorModeRadioButtons);
+
+  if (mode == null) {
+    throw new Error("Invalid Radio Input");
+  }
+
+  if(toastContainer != null) {
+    toastContainer.remove();
+    toastContainer = null;
+  }
+
+  if (mode == "hex") {
+    const hexColor = document.getElementById("input-hex").value;
+    if (hexColor && isValidHex(hexColor)) {
+      navigator.clipboard.writeText(`#${hexColor}`);
+      generateToastMessage(`#${hexColor} copied`);
+    } else {
+      alert("Invalid hex code");
+    }
+  } else {
+    const rbgColor = document.getElementById("input-rgb").value;
+    if (rbgColor) {
+      navigator.clipboard.writeText(rbgColor);
+      generateToastMessage(`#${rbgColor} copied`);
+    } else {
+      alert("Invalid rgb code");
+    }
+  }
+}
+
 //Dom functions
 
 /**
@@ -102,11 +119,11 @@ function handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue) {
 function generateToastMessage(msg) {
   toastContainer = document.createElement("div");
   toastContainer.innerText = msg;
-  toastContainer.className = "toaster toaster-slide-in";
+  toastContainer.className = "toast-message toast-message-slide-in";
 
   toastContainer.addEventListener("click", function () {
-    toastContainer.classList.add("toaster-slide-out");
-    toastContainer.classList.remove("toaster-slide-in");
+    toastContainer.classList.remove("toast-message-slide-in");
+    toastContainer.classList.add("toast-message-slide-out");
 
     //toaster remove after animationend event
     toastContainer.addEventListener("animationend", function () {
