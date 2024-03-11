@@ -15,17 +15,35 @@ window.onload = () => {
 
 //Main or boot functions, this function will take care of getting all the DOM references
 function main() {
+  //Dom references
   const generateRandomColorBtn = document.getElementById(
     "generate-random-color"
   );
   const hexColorInput = document.getElementById("input-hex");
+  const colorSliderRed = document.getElementById("color-slider-red");
+  const colorSliderGreen = document.getElementById("color-slider-green");
+  const colorSliderBlue = document.getElementById("color-slider-blue");
 
+  //Event listeners
   generateRandomColorBtn.addEventListener(
     "click",
     handleGenerateRandomColorBtn
   );
 
   hexColorInput.addEventListener("keyup", handleHexColorInput);
+
+  colorSliderRed.addEventListener(
+    "change",
+    handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue)
+  );
+  colorSliderGreen.addEventListener(
+    "change",
+    handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue)
+  );
+  colorSliderBlue.addEventListener(
+    "change",
+    handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue)
+  );
 }
 
 //Event handlers
@@ -43,6 +61,18 @@ function handleHexColorInput(e) {
       updateColorCodeToDom(color);
     }
   }
+}
+
+function handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue) {
+  return function () {
+    const color = {
+      red: parseInt(colorSliderRed.value),
+      green: parseInt(colorSliderGreen.value),
+      blue: parseInt(colorSliderBlue.value),
+    };
+
+    updateColorCodeToDom(color);
+  };
 }
 
 //Dom functions
@@ -96,8 +126,8 @@ function updateColorCodeToDom(color) {
   document.getElementById("color-slider-red-label").innerText = color.red;
   document.getElementById("color-slider-green").value = color.green;
   document.getElementById("color-slider-green-label").innerText = color.green;
-  document.getElementById("color-slider-blue").value = color.green;
-  document.getElementById("color-slider-blue-label").innerText = color.green;
+  document.getElementById("color-slider-blue").value = color.blue;
+  document.getElementById("color-slider-blue-label").innerText = color.blue;
 }
 
 //Utils functions
