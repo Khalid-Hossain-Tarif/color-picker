@@ -63,13 +63,16 @@
         <div class="selected-color-code">
           <div class="hex-input-group">
             <label for="input-hex" class="lead">Hex</label>
-            <input
-              type="text"
-              placeholder="dddeee"
-              id="input-hex"
-              class="text-input hex-input"
-            />
-            <div class="hex-icon">#</div>
+            <div class="hex-input-group-input">
+              <input
+                type="text"
+                placeholder="dddeee"
+                id="input-hex"
+                class="text-input hex-input"
+              />
+              <div class="hex-icon">#</div>
+            </div>
+            <p class="error-msg" id="input-hex-error-msg"></p>
           </div>
 
           <div class="rgb-input-group">

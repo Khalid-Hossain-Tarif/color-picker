@@ -7,10 +7,16 @@
 
 //globals
 let toastContainer = null;
+const defaultColor = {
+  red: 221,
+  green: 222,
+  blue: 238,
+};
 
 //Onload handler
 window.onload = () => {
   main();
+  updateColorCodeToDom(defaultColor);
 };
 
 //Main or boot functions, this function will take care of getting all the DOM references
@@ -56,12 +62,18 @@ function handleGenerateRandomColorBtn() {
 }
 
 function handleHexColorInput(e) {
+  const inputHexErrorMsg = document.getElementById("input-hex-error-msg");
   const hexColor = e.target.value;
+
   if (hexColor) {
     this.value = hexColor.toUpperCase();
     if (isValidHex(hexColor)) {
+      inputHexErrorMsg.style.display = "none";
       const color = hexToDecimalColors(hexColor);
       updateColorCodeToDom(color);
+    } else {
+      inputHexErrorMsg.style.display = "block";
+      inputHexErrorMsg.innerHTML = "Color code should be valid!";
     }
   }
 }
@@ -86,7 +98,7 @@ function handleCopyToClipboard() {
     throw new Error("Invalid Radio Input");
   }
 
-  if(toastContainer != null) {
+  if (toastContainer != null) {
     toastContainer.remove();
     toastContainer = null;
   }
@@ -103,7 +115,7 @@ function handleCopyToClipboard() {
     const rbgColor = document.getElementById("input-rgb").value;
     if (rbgColor) {
       navigator.clipboard.writeText(rbgColor);
-      generateToastMessage(`#${rbgColor} copied`);
+      generateToastMessage(`${rbgColor} copied`);
     } else {
       alert("Invalid rgb code");
     }
@@ -171,7 +183,7 @@ function updateColorCodeToDom(color) {
   document.getElementById(
     "color-display"
   ).style.backgroundColor = `#${hexColor}`;
-  document.getElementById("input-hex").value = hexColor;
+  document.getElementById("input-hex").value = hexColor.toUpperCase();
   document.getElementById("input-rgb").value = rgbColor;
   document.getElementById("color-slider-red").value = color.red;
   document.getElementById("color-slider-red-label").innerText = color.red;
