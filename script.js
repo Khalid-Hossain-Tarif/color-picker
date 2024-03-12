@@ -6,6 +6,7 @@
  */
 
 //globals
+const inputHexErrorMsg = document.getElementById("input-hex-error-msg");
 let toastContainer = null;
 const defaultColor = {
   red: 221,
@@ -59,10 +60,10 @@ function main() {
 function handleGenerateRandomColorBtn() {
   const color = generateDecimalColor();
   updateColorCodeToDom(color);
+  inputHexErrorMsg.style.display = "none";
 }
 
 function handleHexColorInput(e) {
-  const inputHexErrorMsg = document.getElementById("input-hex-error-msg");
   const hexColor = e.target.value;
 
   if (hexColor) {
@@ -87,6 +88,7 @@ function handleColorSliders(colorSliderRed, colorSliderGreen, colorSliderBlue) {
     };
 
     updateColorCodeToDom(color);
+    inputHexErrorMsg.style.display = "none";
   };
 }
 
