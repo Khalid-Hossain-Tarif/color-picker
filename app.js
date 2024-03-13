@@ -40,6 +40,7 @@ const defaultPresetColors = [
   "#ffcc80",
 ];
 
+const customColors = [];
 const copySound = new Audio("./copy-sound.wav");
 
 //Onload handler
@@ -64,7 +65,9 @@ function main() {
   const colorSliderGreen = document.getElementById("color-slider-green");
   const colorSliderBlue = document.getElementById("color-slider-blue");
   const copyToClipboardBtn = document.getElementById("copy-to-clipboard");
+  const saveToCustomBtn = document.getElementById("save-to-custom");
   const presetColorsParent = document.getElementById("preset-colors");
+  const customColorsParent = document.getElementById("custom-colors");
 
   //Event listeners
   generateRandomColorBtn.addEventListener(
@@ -88,8 +91,12 @@ function main() {
   );
 
   copyToClipboardBtn.addEventListener("click", handleCopyToClipboard);
-
   presetColorsParent.addEventListener("click", handlePresetColorsParent);
+  saveToCustomBtn.addEventListener("click", function () {
+    customColors.push(`#${hexColorInput.value}`);
+    removeChildren(customColorsParent);
+    displayColorBoxes(customColorsParent, customColors);
+  });
 }
 
 //Event handlers
@@ -269,6 +276,18 @@ function displayColorBoxes(parent, colors) {
     const colorBox = generateColorBox(color);
     parent.appendChild(colorBox);
   });
+}
+
+/**
+ * Remove children from parent
+ * @param {object} parent
+ */
+function removeChildren(parent) {
+  let child = parent.lastElementChild;
+  while (child) {
+    parent.removeChild(child);
+    child = parent.lastElementChild;
+  }
 }
 
 //Utils functions

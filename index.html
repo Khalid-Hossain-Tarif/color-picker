@@ -26,9 +26,14 @@
       <section class="section">
         <section class="section-header">
           <h3 class="section-title">Change & Copy Color</h3>
-          <button class="section-header-action" id="copy-to-clipboard">
-            Copy To Clipboard
-          </button>
+          <div>
+            <button class="section-header-action" id="save-to-custom">
+              Save
+            </button>
+            <button class="section-header-action" id="copy-to-clipboard">
+              Copy
+            </button>
+          </div>
         </section>
 
         <div class="divider"></div>
@@ -136,15 +141,22 @@
         </div>
       </section>
 
-      <!-- Preset Color -->
+      <!-- Preset Colors -->
       <section class="preset-colors-section">
         <div class="preset-colors-header">
           <h3 class="section-title">Preset colors</h3>
         </div>
         <div class="divider"></div>
-        <div class="preset-colors" id="preset-colors">
-          <!-- <div class="color-box"></div> -->
+        <div class="preset-colors" id="preset-colors"></div>
+      </section>
+
+      <!-- Custom Colors -->
+      <section class="preset-colors-section">
+        <div class="preset-colors-header">
+          <h3 class="section-title">Custom colors</h3>
         </div>
+        <div class="divider"></div>
+        <div class="preset-colors" id="custom-colors"></div>
       </section>
     </div>
   </body>

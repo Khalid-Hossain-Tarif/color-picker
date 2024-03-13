@@ -37,6 +37,7 @@ body {
 
 .section-header-action {
   display: inline-block;
+  margin-left: 12px;
   border: none;
   border-radius: 0.15rem;
   background: transparent;
@@ -45,6 +46,10 @@ body {
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+#save-to-custom {
+  color: #53AF1C;
 }
 
 .section-title {
