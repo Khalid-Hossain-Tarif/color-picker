@@ -40,6 +40,8 @@ const defaultPresetColors = [
   "#ffcc80",
 ];
 
+const copySound = new Audio("./copy-sound.wav");
+
 //Onload handler
 window.onload = () => {
   main();
@@ -87,12 +89,7 @@ function main() {
 
   copyToClipboardBtn.addEventListener("click", handleCopyToClipboard);
 
-  presetColorsParent.addEventListener("click", function (e) {
-    const child = e.target;
-    if (child.className == "color-box") {
-      navigator.clipboard.writeText(child.getAttribute("data-color"));
-    }
-  });
+  presetColorsParent.addEventListener("click", handlePresetColorsParent);
 }
 
 //Event handlers
@@ -160,6 +157,20 @@ function handleCopyToClipboard() {
     } else {
       alert("Invalid rgb code");
     }
+  }
+}
+
+function handlePresetColorsParent(e) {
+  const child = e.target;
+  if (child.className == "color-box") {
+    navigator.clipboard.writeText(child.getAttribute("data-color"));
+    copySound.volume = 0.2;
+    copySound.play();
+    if (toastContainer != null) {
+      toastContainer.remove();
+      toastContainer = null;
+    }
+    generateToastMessage(`${child.getAttribute("data-color")} copied`);
   }
 }
 
