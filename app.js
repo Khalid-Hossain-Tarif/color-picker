@@ -92,10 +92,8 @@ function main() {
 
   copyToClipboardBtn.addEventListener("click", handleCopyToClipboard);
   presetColorsParent.addEventListener("click", handlePresetColorsParent);
-  saveToCustomBtn.addEventListener(
-    "click",
-    handleSaveToCustomBtn(customColorsParent, hexColorInput)
-  );
+  customColorsParent.addEventListener("click", handlePresetColorsParent);
+  saveToCustomBtn.addEventListener("click", handleSaveToCustomBtn);
 }
 
 //Event handlers
@@ -180,16 +178,11 @@ function handlePresetColorsParent(e) {
   }
 }
 
-function handleSaveToCustomBtn(customColorsParent, inputHex) {
-  return function () {
-    customColors.push(`#${inputHex.value}`);
-    removeChildren(customColorsParent);
-    displayColorBoxes(customColorsParent, customColors);
-  };
-}
-
-function colorBoxesCopy() {
-  
+function handleSaveToCustomBtn() {
+  const customColorsParent = document.getElementById("custom-colors");
+  customColors.push(`#${document.getElementById("input-hex").value}`);
+  removeChildren(customColorsParent);
+  displayColorBoxes(customColorsParent, customColors);
 }
 
 //Dom functions
