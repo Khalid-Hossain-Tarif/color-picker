@@ -180,7 +180,12 @@ function handlePresetColorsParent(e) {
 
 function handleSaveToCustomBtn() {
   const customColorsParent = document.getElementById("custom-colors");
-  customColors.push(`#${document.getElementById("input-hex").value}`);
+  const color = `#${document.getElementById("input-hex").value}`;
+  if (customColors.includes(color)) {
+    alert("Color already saved!");
+    return;
+  }
+  customColors.unshift(color);
   removeChildren(customColorsParent);
   displayColorBoxes(customColorsParent, customColors);
 }
