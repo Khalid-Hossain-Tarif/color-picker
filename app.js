@@ -67,6 +67,7 @@ function main() {
   const copyToClipboardBtn = document.getElementById("copy-to-clipboard");
   const saveToCustomBtn = document.getElementById("save-to-custom");
   const presetColorsParent = document.getElementById("preset-colors");
+  const customColorsParent = document.getElementById("custom-colors");
 
   //Event listeners
   generateRandomColorBtn.addEventListener(
@@ -91,7 +92,10 @@ function main() {
 
   copyToClipboardBtn.addEventListener("click", handleCopyToClipboard);
   presetColorsParent.addEventListener("click", handlePresetColorsParent);
-  saveToCustomBtn.addEventListener("click", handleSaveToCustomBtn);
+  saveToCustomBtn.addEventListener(
+    "click",
+    handleSaveToCustomBtn(customColorsParent, hexColorInput)
+  );
 }
 
 //Event handlers
@@ -176,11 +180,16 @@ function handlePresetColorsParent(e) {
   }
 }
 
-function handleSaveToCustomBtn() {
-  const customColorsParent = document.getElementById("custom-colors");
-  customColors.push(`#${document.getElementById('input-hex').value}`);
-  removeChildren(customColorsParent);
-  displayColorBoxes(customColorsParent, customColors);
+function handleSaveToCustomBtn(customColorsParent, inputHex) {
+  return function () {
+    customColors.push(`#${inputHex.value}`);
+    removeChildren(customColorsParent);
+    displayColorBoxes(customColorsParent, customColors);
+  };
+}
+
+function colorBoxesCopy() {
+  
 }
 
 //Dom functions
@@ -264,7 +273,6 @@ function generateColorBox(color) {
   div.className = "color-box";
   div.style.backgroundColor = color;
   div.setAttribute("data-color", color);
-
   return div;
 }
 
