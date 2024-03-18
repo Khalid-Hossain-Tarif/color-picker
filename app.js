@@ -40,7 +40,7 @@ const defaultPresetColors = [
   "#ffcc80",
 ];
 
-const customColors = [];
+let customColors = new Array(24);
 const copySound = new Audio("./copy-sound.wav");
 
 //Onload handler
@@ -52,6 +52,11 @@ window.onload = () => {
     document.getElementById("preset-colors"),
     defaultPresetColors
   );
+  const customColorsString = localStorage.getItem("custom-colors");
+  if (customColorsString) {
+    customColors = JSON.parse(customColorsString);
+    displayColorBoxes(document.getElementById("custom-colors"), customColors);
+  }
 };
 
 //Main or boot functions, this function will take care of getting all the DOM references
@@ -186,6 +191,10 @@ function handleSaveToCustomBtn() {
     return;
   }
   customColors.unshift(color);
+  if (customColors.length > 24) {
+    customColors = customColors.slice(0, 24);
+  }
+  localStorage.setItem("custom-colors", JSON.stringify(customColors));
   removeChildren(customColorsParent);
   displayColorBoxes(customColorsParent, customColors);
 }
@@ -281,8 +290,10 @@ function generateColorBox(color) {
  */
 function displayColorBoxes(parent, colors) {
   colors.forEach((color) => {
-    const colorBox = generateColorBox(color);
-    parent.appendChild(colorBox);
+    if (isValidHex(color.slice(1))) {
+      const colorBox = generateColorBox(color);
+      parent.appendChild(colorBox);
+    }
   });
 }
 
