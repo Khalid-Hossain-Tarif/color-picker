@@ -73,6 +73,11 @@ function main() {
   const saveToCustomBtn = document.getElementById("save-to-custom");
   const presetColorsParent = document.getElementById("preset-colors");
   const customColorsParent = document.getElementById("custom-colors");
+  const bgFileInput = document.getElementById("bg-file-input");
+  const bgPreview = document.getElementById("bg-preview");
+  const bgFileInputBtn = document.getElementById("bg-file-input-btn");
+  const bgFileDeleteBtn = document.getElementById("bg-file-delete-btn");
+  bgFileDeleteBtn.style.display = 'none';
 
   //Event listeners
   generateRandomColorBtn.addEventListener(
@@ -99,6 +104,25 @@ function main() {
   presetColorsParent.addEventListener("click", handlePresetColorsParent);
   customColorsParent.addEventListener("click", handlePresetColorsParent);
   saveToCustomBtn.addEventListener("click", handleSaveToCustomBtn);
+
+  bgFileInputBtn.addEventListener("click", function () {
+    bgFileInput.click();
+  });
+
+  bgFileInput.addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    const imgUrl = URL.createObjectURL(file);
+    bgPreview.style.backgroundImage = `url(${imgUrl})`;
+    document.body.style.backgroundImage = `url(${imgUrl})`;
+    bgFileDeleteBtn.style.display = 'block';
+  });
+
+  bgFileDeleteBtn.addEventListener("click", function () {
+    bgPreview.style.backgroundImage = 'none';
+    document.body.style.backgroundImage = 'none';
+    bgFileDeleteBtn.style.display = 'none';
+    bgFileInput.value = null;
+  });
 }
 
 //Event handlers
