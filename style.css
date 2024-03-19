@@ -243,21 +243,23 @@ label {
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .color-box:hover {
   opacity: 0.9;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* Background Preferences  */
-
 .background-preferences {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
+
 .background-left-panel {
   padding: 1rem;
 }
+
 .background-image {
   width: 100%;
   padding-top: 56.25%;
@@ -268,24 +270,29 @@ label {
   background-size: 100% 100% !important;
   background-position: bottom !important;
 }
+
 .background-control {
   margin-top: 1rem;
   display: flex;
   gap: 0.5rem;
 }
+
 .file-input {
   display: none;
 }
+
 .background-control-btn {
   padding: 0.5rem 1rem;
   border: none;
   outline: none;
   cursor: pointer;
 }
+
 .background-right-panel {
   padding: 1rem;
   width: 100%;
 }
+
 .select-group {
   margin-bottom: 1rem;
 }
