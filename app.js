@@ -236,6 +236,7 @@ function handleSaveToCustomBtn() {
 function handleBgFileInput(bgPreview, bgFileDeleteBtn, bgController) {
   return function (e) {
     const file = e.target.files[0];
+    console.log(e.target.files[0])
     const imgUrl = URL.createObjectURL(file);
     bgPreview.style.backgroundImage = `url(${imgUrl})`;
     document.body.style.backgroundImage = `url(${imgUrl})`;
